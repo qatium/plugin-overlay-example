@@ -1,0 +1,38 @@
+{
+  "name": "plugin-overlay-example",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Example Qatium plugin showcasing how to work with overlays",
+  "scripts": {
+    "vite:ui": "vite --config vite.config.ui.ts",
+    "vite:engine": "vite --config vite.config.engine.ts build",
+    "dev": "concurrently \"npm:dev:*\"",
+    "dev:ui": "npm run vite:ui",
+    "dev:engine": "npm run vite:engine -- --watch",
+    "build": "rimraf dist && npm run build:engine && npm run build:ui",
+    "build:ui": "tsc --project src/ui/tsconfig.json && rm -f src/public/engine.js && npm run vite:ui -- build",
+    "build:engine": "tsc --project src/engine/tsconfig.json && npm run vite:engine -- --outDir dist",
+    "test": "jest --verbose",
+    "test:watch": "npm run test --watchAll -i --no-cache"
+  },
+  "devDependencies": {
+    "@qatium/sdk-testing-library": "latest",
+    "@testing-library/jest-dom": "^6.4.5",
+    "@types/jest": "^29.5.11",
+    "concurrently": "^8.2.2",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-watch-typeahead": "^2.2.2",
+    "rimraf": "^5.0.5",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8",
+    "vite-plugin-singlefile": "^1.0.0"
+  },
+  "dependencies": {
+    "@qatium/plugin": "latest",
+    "geojson": "^0.5.0",
+    "@loaders.gl/obj": "^4.2.1"
+  }
+}
