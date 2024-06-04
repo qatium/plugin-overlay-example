@@ -5,9 +5,8 @@ import {
   Junction,
   OverlayLayer,
   OverlayLayerType,
-  PluginI,
-  SDK
-} from "@qatium/plugin/engine";
+  Plugin
+} from "@qatium/plugin";
 
 type Overlay = Exclude<OverlayLayerType,
   "HexagonLayer" |
@@ -24,19 +23,19 @@ type Overlay = Exclude<OverlayLayerType,
 
 type Message = { overlay: Overlay }
 
-export class Engine implements PluginI<Message> {
+export class MyPlugin implements Plugin {
   private activeOverlay: Overlay = "ArcLayer";
 
-  run(sdk: SDK) {
-    this[this.activeOverlay](sdk)
+  run() {
+    this[this.activeOverlay]()
   }
 
-  onMessage(sdk: SDK, message: Message) {
+  onMessage(message: Message) {
     this.activeOverlay = message.overlay;
-    this.run(sdk);
+    this.run();
   }
 
-  SimpleMeshLayer(sdk: SDK) {
+  SimpleMeshLayer() {
     const data = sdk.network.getJunctions().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
@@ -58,7 +57,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"SimpleMeshLayer">]);
   }
 
-  HeatmapLayer(sdk: SDK) {
+  HeatmapLayer() {
     const data = sdk.network.getJunctions().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
@@ -78,7 +77,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"HeatmapLayer">]);
   }
 
-  ScreenGridLayer(sdk: SDK) {
+  ScreenGridLayer() {
     const data = sdk.network.getJunctions().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
@@ -104,7 +103,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"ScreenGridLayer">]);
   }
 
-  ContourLayer(sdk: SDK) {
+  ContourLayer() {
     const data = sdk.network.getJunctions().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
@@ -128,7 +127,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"ContourLayer">]);
   }
 
-  TextLayer(sdk: SDK) {
+  TextLayer() {
     const data = sdk.network.getTanks().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
@@ -147,7 +146,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"TextLayer">]);
   }
 
-  GeoJsonLayer(sdk: SDK) {
+  GeoJsonLayer() {
     const data = sdk.network.getPipes().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
@@ -163,7 +162,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"GeoJsonLayer">]);
   }
 
-  SolidPolygonLayer(sdk: SDK) {
+  SolidPolygonLayer() {
     const data = [{
       type: "Feature",
       geometry: {
@@ -190,7 +189,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"SolidPolygonLayer">]);
   }
 
-  PolygonLayer(sdk: SDK) {
+  PolygonLayer() {
     const data = [{
       type: "Feature",
       geometry: {
@@ -216,7 +215,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"PolygonLayer">]);
   }
 
-  PathLayer(sdk: SDK) {
+  PathLayer() {
     const data = sdk.network.getPipes().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
@@ -236,7 +235,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"PathLayer">]);
   }
 
-  TripsLayer(sdk: SDK) {
+  TripsLayer() {
     const max = 1000;
     const data = sdk.network.getPipes().map((p) => ({
       type: "Feature",
@@ -265,7 +264,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"TripsLayer">]);
   }
 
-  GridCellLayer(sdk: SDK) {
+  GridCellLayer() {
     const data = sdk.network.getJunctions().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
@@ -289,7 +288,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"GridCellLayer">]);
   }
 
-  GridLayer(sdk: SDK) {
+  GridLayer() {
     const data = sdk.network.getJunctions().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
@@ -314,7 +313,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"GridLayer">]);
   }
 
-  CPUGridLayer(sdk: SDK) {
+  CPUGridLayer() {
     const data = sdk.network.getJunctions().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
@@ -339,7 +338,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"CPUGridLayer">]);
   }
 
-  GPUGridLayer(sdk: SDK) {
+  GPUGridLayer() {
     const data = sdk.network.getJunctions().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
@@ -364,7 +363,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"GPUGridLayer">]);
   }
 
-  ColumnLayer(sdk: SDK) {
+  ColumnLayer() {
     const data = sdk.network.getJunctions().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
@@ -388,13 +387,13 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"ColumnLayer">]);
   }
 
-  ScatterplotLayer(sdk: SDK) {
+  ScatterplotLayer() {
     const data = sdk.network.getJunctions().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
       properties: { elevation: p.elevation }
     }) as Feature);
-  
+
     sdk.map.addOverlay([{
       id: 'ScatterplotLayer',
       type: "ScatterplotLayer",
@@ -413,7 +412,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"ScatterplotLayer">]);
   }
 
-  PointCloudLayer(sdk: SDK) {
+  PointCloudLayer() {
     const data = sdk.network.getJunctions().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
@@ -435,7 +434,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"PointCloudLayer">]);
   }
 
-  LineLayer(sdk: SDK) {
+  LineLayer() {
     const data = sdk.network.getPipes().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
@@ -460,7 +459,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"LineLayer">]);
   }
 
-  IconLayer(sdk: SDK) {
+  IconLayer() {
     const data = sdk.network.getJunctions().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
@@ -506,7 +505,7 @@ export class Engine implements PluginI<Message> {
     } as OverlayLayer<"IconLayer">]);
   }
 
-  ArcLayer(sdk: SDK) {
+  ArcLayer() {
     const data = sdk.network.getPipes().map((p) => ({
       type: "Feature",
       geometry: p.geometry,
