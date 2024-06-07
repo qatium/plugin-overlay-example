@@ -1,4 +1,4 @@
-import { sendMessage } from "@qatium/plugin/ui";
+import { sendMessage } from "@qatium/sdk/ui";
 
 const overlays = [
   "ArcLayer","IconLayer","LineLayer","PointCloudLayer","ScatterplotLayer","ColumnLayer","GridCellLayer","PathLayer","PolygonLayer","GeoJsonLayer","TextLayer","SolidPolygonLayer","ContourLayer","GridLayer","GPUGridLayer","CPUGridLayer","HexagonLayer","ScreenGridLayer","HeatmapLayer","TripsLayer","SimpleMeshLayer"

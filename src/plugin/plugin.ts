@@ -4,9 +4,9 @@ import { Feature, LineString, Point, Polygon } from "geojson";
 import {
   Junction,
   OverlayLayer,
-  OverlayLayerType,
-  Plugin
-} from "@qatium/plugin";
+  OverlayLayerType
+} from "@qatium/sdk";
+import { Plugin } from '@qatium/sdk/plugin';
 
 type Overlay = Exclude<OverlayLayerType,
   "HexagonLayer" |
