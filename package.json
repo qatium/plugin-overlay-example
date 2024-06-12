@@ -20,14 +20,15 @@
     "jest-watch-typeahead": "^2.2.2",
     "rimraf": "^5.0.5",
     "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
     "tsx": "^4.11.2",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "vite-plugin-singlefile": "^1.0.0"
   },
   "dependencies": {
+    "@loaders.gl/obj": "^4.2.1",
     "@qatium/sdk": "latest",
-    "geojson": "^0.5.0",
-    "@loaders.gl/obj": "^4.2.1"
+    "geojson": "^0.5.0"
   }
 }
