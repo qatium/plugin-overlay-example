@@ -533,4 +533,51 @@ export class MyPlugin implements Plugin {
       getWidth: 4
     } as OverlayLayer<"ArcLayer">]);
   }
+
+  HexagonLayer() {
+    const data = sdk.network.getJunctions().map((p) => ({
+      type: "Feature",
+      geometry: p.geometry,
+      properties: { pressure: p.simulation!.pressure }
+    }) as Feature);
+
+    const COLOR_PALETTE_HEX = [
+      "#796ebd",
+      "#bb66a6",
+      "#d56f9b",
+      "#e87c90",
+      "#f48d87",
+      "#faa17f",
+      "#fcb77d",
+      "#e2d57e"
+    ];
+
+    function hexToRgb(hex: string): [number, number, number, number] {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result
+        ? [
+          parseInt(result[1], 16),
+          parseInt(result[2], 16),
+          parseInt(result[3], 16),
+          255
+        ]
+        : [0, 0, 0, 255];
+    }
+
+    sdk.map.addOverlay([{
+      id: "hexagons",
+      type: "HexagonLayer",
+      data,
+      opacity: 0.7,
+      coverage: 0.95,
+      radius: 100,
+      visible: true,
+      colorRange: COLOR_PALETTE_HEX.map((c) => hexToRgb(c)),
+      colorDomain: [-0.5, COLOR_PALETTE_HEX.length - 0.5],
+      _filterData: null,
+      getColorValue: () => Math.floor(Math.random() * COLOR_PALETTE_HEX.length),
+      getPosition: (junction: unknown) =>
+        (junction as Junction).geometry.coordinates as [number, number]
+    } as OverlayLayer<"HexagonLayer">]);
+  }
 }
